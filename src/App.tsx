@@ -1,9 +1,8 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ShoppingCart, Heart, Search, Menu } from 'lucide-react'
+import { ShoppingCart, Heart, Search, Menu, ChevronRight } from 'lucide-react'
 
-// Mock data for initial development
 const products = [
   {
     id: 1,
@@ -39,39 +38,50 @@ const products = [
   }
 ]
 
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6 }
+}
+
 function App() {
   const [cartOpen, setCartOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FDFBF7]">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white shadow-sm z-50">
+      <nav className="fixed top-0 w-full bg-[#FDFBF7]/80 backdrop-blur-md z-50 border-b border-black/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <button className="p-2 rounded-lg hover:bg-gray-100 lg:hidden">
+              <button className="p-2 rounded-full hover:bg-black/5 lg:hidden transition">
                 <Menu className="h-6 w-6" />
               </button>
-              <h1 className="text-2xl font-serif ml-2">Essence</h1>
+              <h1 className="text-2xl font-serif ml-2 tracking-wide">ESSENCE</h1>
             </div>
             
-            <div className="hidden lg:flex space-x-8">
-              <a href="#" className="text-gray-700 hover:text-black">New</a>
-              <a href="#" className="text-gray-700 hover:text-black">Brands</a>
-              <a href="#" className="text-gray-700 hover:text-black">Women</a>
-              <a href="#" className="text-gray-700 hover:text-black">Men</a>
-              <a href="#" className="text-gray-700 hover:text-black">Sets</a>
+            <div className="hidden lg:flex space-x-12">
+              {['New', 'Brands', 'Women', 'Men', 'Sets'].map((item) => (
+                <a 
+                  key={item}
+                  href="#" 
+                  className="text-sm tracking-wider hover:text-black transition-colors relative group"
+                >
+                  {item}
+                  <span className="absolute inset-x-0 bottom-0 h-px bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"/>
+                </a>
+              ))}
             </div>
 
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-lg hover:bg-gray-100">
+            <div className="flex items-center space-x-6">
+              <button className="p-2 rounded-full hover:bg-black/5 transition">
                 <Search className="h-5 w-5" />
               </button>
-              <button className="p-2 rounded-lg hover:bg-gray-100">
+              <button className="p-2 rounded-full hover:bg-black/5 transition">
                 <Heart className="h-5 w-5" />
               </button>
               <button 
-                className="p-2 rounded-lg hover:bg-gray-100 relative"
+                className="p-2 rounded-full hover:bg-black/5 transition relative"
                 onClick={() => setCartOpen(!cartOpen)}
               >
                 <ShoppingCart className="h-5 w-5" />
@@ -85,38 +95,51 @@ function App() {
       </nav>
 
       {/* Hero Section */}
-      <div className="pt-16">
-        <div className="relative h-[70vh] bg-black">
-          <img 
+      <div className="pt-20">
+        <div className="relative h-[85vh] bg-black overflow-hidden">
+          <motion.img 
             src="https://images.unsplash.com/photo-1583467875263-d9e39c307e17?auto=format&fit=crop&q=80"
-            className="w-full h-full object-cover opacity-80"
+            className="w-full h-full object-cover opacity-90 scale-105"
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 2 }}
             alt="Luxury perfume"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"/>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center text-white">
-              <motion.h2 
-                className="text-5xl font-serif mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                Discover Your Signature Scent
-              </motion.h2>
+            <div className="text-center text-white max-w-3xl px-4">
               <motion.p 
-                className="text-xl mb-8"
+                className="text-sm tracking-[0.2em] uppercase mb-6 opacity-90"
+                {...fadeInUp}
+              >
+                The Art of Fragrance
+              </motion.p>
+              <motion.h2 
+                className="text-6xl font-serif mb-6 leading-tight"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                Curated collection of luxury fragrances
-              </motion.p>
-              <motion.button 
-                className="bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition-colors"
+                Discover Your Signature Scent
+              </motion.h2>
+              <motion.p 
+                className="text-lg mb-10 opacity-90"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                Shop Now
+                Curated collection of luxury fragrances for the discerning individual
+              </motion.p>
+              <motion.button 
+                className="group bg-white text-black px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center space-x-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="tracking-wide">Explore Collection</span>
+                <ChevronRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform"/>
               </motion.button>
             </div>
           </div>
@@ -124,34 +147,48 @@ function App() {
       </div>
 
       {/* Product Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-3xl font-serif mb-8">New Arrivals</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="text-center mb-16">
+          <motion.p 
+            className="text-sm tracking-[0.2em] uppercase text-gray-600 mb-4"
+            {...fadeInUp}
+          >
+            Latest Additions
+          </motion.p>
+          <motion.h2 
+            className="text-4xl font-serif"
+            {...fadeInUp}
+            transition={{ delay: 0.2 }}
+          >
+            New Arrivals
+          </motion.h2>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+          {products.map((product, idx) => (
             <motion.div 
               key={product.id}
-              className="group relative"
+              className="group"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -5 }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
-              <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100 mb-6">
                 <img 
                   src={product.image} 
                   alt={product.name}
-                  className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                  className="h-full w-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700"
                 />
-                <button className="absolute top-4 right-4 p-2 rounded-full bg-white/80 hover:bg-white">
+                <button className="absolute top-4 right-4 p-3 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                   <Heart className="h-5 w-5" />
                 </button>
               </div>
-              <div className="mt-4">
-                <h3 className="text-sm text-gray-700">{product.brand}</h3>
-                <p className="text-lg font-medium text-gray-900">{product.name}</p>
-                <p className="mt-1 text-sm text-gray-500">{product.description}</p>
-                <p className="mt-1 text-lg font-medium text-gray-900">${product.price}</p>
-                <button className="mt-4 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors">
+              <div className="space-y-2 text-center">
+                <p className="text-sm tracking-wider text-gray-600">{product.brand}</p>
+                <h3 className="font-serif text-xl">{product.name}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
+                <p className="text-lg font-light">${product.price}</p>
+                <button className="w-full bg-black text-white py-3 rounded-full hover:bg-gray-900 transition-colors mt-4 tracking-wide">
                   Add to Cart
                 </button>
               </div>
@@ -161,63 +198,90 @@ function App() {
       </div>
 
       {/* Features */}
-      <div className="bg-gray-100 py-16">
+      <div className="bg-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-              <h3 className="text-lg font-medium mb-2">Free Shipping</h3>
-              <p className="text-gray-600">On orders over $100</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-medium mb-2">Secure Payment</h3>
-              <p className="text-gray-600">100% secure payment</p>
-            </div>
-            <div>
-              <h3 className="text-lg font-medium mb-2">Money Back Guarantee</h3>
-              <p className="text-gray-600">Within 30 days</p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
+            {[
+              { title: "Free Shipping", desc: "On orders over $100" },
+              { title: "Secure Payment", desc: "100% secure payment" },
+              { title: "Money Back Guarantee", desc: "Within 30 days" }
+            ].map((feature, idx) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <h3 className="font-serif text-xl mb-3">{feature.title}</h3>
+                <p className="text-gray-600">{feature.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-black text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h4 className="text-lg font-medium mb-4">About Us</h4>
-              <p className="text-gray-400">Discover the finest luxury fragrances curated for the discerning individual.</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-medium mb-4">Customer Service</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>Contact Us</li>
-                <li>Shipping Policy</li>
-                <li>Returns & Exchanges</li>
-                <li>FAQs</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-medium mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>New Arrivals</li>
-                <li>Best Sellers</li>
-                <li>Gift Sets</li>
-                <li>Sale</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-medium mb-4">Newsletter</h4>
-              <p className="text-gray-400 mb-4">Subscribe to receive updates, access to exclusive deals, and more.</p>
+      {/* Newsletter */}
+      <div className="bg-[#1A1A1A] text-white py-24">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <h4 className="font-serif text-3xl mb-4">Join Our Newsletter</h4>
+            <p className="text-gray-400 mb-8">Subscribe to receive updates, access to exclusive deals, and more.</p>
+            <div className="flex gap-4">
               <input 
                 type="email" 
                 placeholder="Enter your email"
-                className="w-full px-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-400 mb-2"
+                className="flex-1 px-6 py-4 rounded-full bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20"
               />
-              <button className="w-full bg-white text-black py-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <button className="px-8 bg-white text-black rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap">
                 Subscribe
               </button>
             </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-black text-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+              <h4 className="font-serif text-xl mb-6">About Us</h4>
+              <p className="text-gray-400 leading-relaxed">Discover the finest luxury fragrances curated for the discerning individual.</p>
+            </div>
+            <div>
+              <h4 className="font-serif text-xl mb-6">Customer Service</h4>
+              <ul className="space-y-4 text-gray-400">
+                {['Contact Us', 'Shipping Policy', 'Returns & Exchanges', 'FAQs'].map(item => (
+                  <li key={item} className="hover:text-white transition-colors cursor-pointer">{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-serif text-xl mb-6">Quick Links</h4>
+              <ul className="space-y-4 text-gray-400">
+                {['New Arrivals', 'Best Sellers', 'Gift Sets', 'Sale'].map(item => (
+                  <li key={item} className="hover:text-white transition-colors cursor-pointer">{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-serif text-xl mb-6">Follow Us</h4>
+              <p className="text-gray-400 mb-6">Stay connected with us on social media for the latest updates and exclusive offers.</p>
+              <div className="flex space-x-4">
+                {['Instagram', 'Facebook', 'Twitter'].map(social => (
+                  <a key={social} className="text-sm hover:text-white transition-colors cursor-pointer">{social}</a>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-white/10 mt-16 pt-8 text-center text-gray-400">
+            <p>© 2024 Essence. All rights reserved.</p>
           </div>
         </div>
       </footer>
