@@ -1,47 +1,171 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ShoppingCart, Heart, Search, Menu, ChevronRight } from 'lucide-react'
+import { ShoppingCart, Heart, Search, Menu, ChevronRight, Star } from 'lucide-react'
 
-const products = [
+const mensFragrances = [
   {
     id: 1,
-    name: "Midnight Rose",
-    brand: "Essence Luxe",
-    price: 129.99,
-    image: "https://images.unsplash.com/photo-1557170334-a9632e77c6e4?auto=format&fit=crop&q=80&w=500",
-    description: "A seductive blend of Bulgarian rose, blackcurrant, and vanilla"
+    name: "Noir Intense",
+    brand: "Maison Noir",
+    price: 185.00,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&q=80&w=500",
+    description: "Deep woody notes with leather and tobacco",
+    notes: ["Leather", "Tobacco", "Cedar"]
   },
   {
     id: 2,
-    name: "Ocean Breeze",
-    brand: "Aqua Pure",
-    price: 89.99,
-    image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=500",
-    description: "Fresh marine accord with citrus and woody notes"
+    name: "Azure Ocean",
+    brand: "Maritime",
+    price: 145.00,
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1595425964272-5437c8a18827?auto=format&fit=crop&q=80&w=500",
+    description: "Fresh aquatic scent with citrus undertones",
+    notes: ["Bergamot", "Marine", "Musk"]
   },
   {
     id: 3,
-    name: "Golden Amber",
-    brand: "Essence Luxe",
-    price: 149.99,
-    image: "https://images.unsplash.com/photo-1590736704728-f4e505bb85a7?auto=format&fit=crop&q=80&w=500",
-    description: "Warm amber enriched with vanilla and musk"
-  },
-  {
-    id: 4,
-    name: "Velvet Orchid",
-    brand: "Floral Dreams",
-    price: 119.99,
-    image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=500",
-    description: "Exotic orchid blend with jasmine and sandalwood"
+    name: "Timber Luxe",
+    brand: "Forest & Co",
+    price: 165.00,
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=500",
+    description: "Rich cedarwood with spicy undertones",
+    notes: ["Cedar", "Cardamom", "Amber"]
   }
 ]
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
+const womensFragrances = [
+  {
+    id: 4,
+    name: "Rose Élixir",
+    brand: "Fleur Paris",
+    price: 195.00,
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=500",
+    description: "Bulgarian rose with vanilla undertones",
+    notes: ["Rose", "Vanilla", "Jasmine"]
+  },
+  {
+    id: 5,
+    name: "Moonlight Jasmine",
+    brand: "Luna",
+    price: 175.00,
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1590736704728-f4e505bb85a7?auto=format&fit=crop&q=80&w=500",
+    description: "Night-blooming jasmine with white musk",
+    notes: ["Jasmine", "Musk", "Ylang Ylang"]
+  },
+  {
+    id: 6,
+    name: "Golden Amber",
+    brand: "Essence Luxe",
+    price: 155.00,
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=500",
+    description: "Warm amber with oriental spices",
+    notes: ["Amber", "Vanilla", "Spices"]
+  }
+]
+
+function FragranceCard({ fragrance, index }) {
+  return (
+    <motion.div 
+      className="group relative"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <div className="relative aspect-[3/4] overflow-hidden rounded-xl mb-6">
+        <img 
+          src={fragrance.image} 
+          alt={fragrance.name}
+          className="h-full w-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
+        <button className="absolute top-4 right-4 p-3 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <Heart className="h-5 w-5" />
+        </button>
+        <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          <div className="flex gap-2 mb-2">
+            {fragrance.notes.map((note, i) => (
+              <span key={i} className="text-xs px-3 py-1 bg-white/20 rounded-full backdrop-blur-sm">
+                {note}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <p className="text-sm tracking-wider text-gray-600">{fragrance.brand}</p>
+          <div className="flex items-center gap-1">
+            <Star className="h-4 w-4 fill-current text-yellow-400" />
+            <span className="text-sm">{fragrance.rating}</span>
+          </div>
+        </div>
+        <h3 className="font-serif text-xl">{fragrance.name}</h3>
+        <p className="text-sm text-gray-600 leading-relaxed">{fragrance.description}</p>
+        <p className="text-lg font-light">${fragrance.price}</p>
+        <button className="w-full bg-black text-white py-3 rounded-full hover:bg-gray-900 transition-colors mt-4 tracking-wide">
+          Add to Cart
+        </button>
+      </div>
+    </motion.div>
+  )
+}
+
+function GenderSection({ title, subtitle, fragrances, imageSrc, reversed = false }) {
+  return (
+    <div className={`flex flex-col lg:flex-row ${reversed ? 'lg:flex-row-reverse' : ''} min-h-screen`}>
+      <div className="lg:w-1/2 relative">
+        <motion.div 
+          className="sticky top-0 h-screen"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <img 
+            src={imageSrc} 
+            alt={title} 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"/>
+          <div className="absolute inset-0 flex items-center justify-center text-white text-center p-8">
+            <div>
+              <motion.p 
+                className="text-sm tracking-[0.2em] uppercase mb-4 opacity-90"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                {subtitle}
+              </motion.p>
+              <motion.h2 
+                className="text-6xl font-serif mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                {title}
+              </motion.h2>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+      <div className="lg:w-1/2 bg-[#FDFBF7] p-12 lg:p-24">
+        <div className="grid grid-cols-1 gap-12">
+          {fragrances.map((fragrance, index) => (
+            <FragranceCard key={fragrance.id} fragrance={fragrance} index={index} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 function App() {
@@ -61,7 +185,7 @@ function App() {
             </div>
             
             <div className="hidden lg:flex space-x-12">
-              {['New', 'Brands', 'Women', 'Men', 'Sets'].map((item) => (
+              {['New', 'Women', 'Men', 'Sets', 'Sale'].map((item) => (
                 <a 
                   key={item}
                   href="#" 
@@ -110,7 +234,9 @@ function App() {
             <div className="text-center text-white max-w-3xl px-4">
               <motion.p 
                 className="text-sm tracking-[0.2em] uppercase mb-6 opacity-90"
-                {...fadeInUp}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
               >
                 The Art of Fragrance
               </motion.p>
@@ -146,56 +272,22 @@ function App() {
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="text-center mb-16">
-          <motion.p 
-            className="text-sm tracking-[0.2em] uppercase text-gray-600 mb-4"
-            {...fadeInUp}
-          >
-            Latest Additions
-          </motion.p>
-          <motion.h2 
-            className="text-4xl font-serif"
-            {...fadeInUp}
-            transition={{ delay: 0.2 }}
-          >
-            New Arrivals
-          </motion.h2>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-          {products.map((product, idx) => (
-            <motion.div 
-              key={product.id}
-              className="group"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-            >
-              <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100 mb-6">
-                <img 
-                  src={product.image} 
-                  alt={product.name}
-                  className="h-full w-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700"
-                />
-                <button className="absolute top-4 right-4 p-3 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  <Heart className="h-5 w-5" />
-                </button>
-              </div>
-              <div className="space-y-2 text-center">
-                <p className="text-sm tracking-wider text-gray-600">{product.brand}</p>
-                <h3 className="font-serif text-xl">{product.name}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
-                <p className="text-lg font-light">${product.price}</p>
-                <button className="w-full bg-black text-white py-3 rounded-full hover:bg-gray-900 transition-colors mt-4 tracking-wide">
-                  Add to Cart
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+      {/* Women's Section */}
+      <GenderSection 
+        title="For Her"
+        subtitle="Women's Collection"
+        fragrances={womensFragrances}
+        imageSrc="https://images.unsplash.com/photo-1583900985737-6d0495555783?auto=format&fit=crop&q=80"
+      />
+
+      {/* Men's Section */}
+      <GenderSection 
+        title="For Him"
+        subtitle="Men's Collection"
+        fragrances={mensFragrances}
+        imageSrc="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?auto=format&fit=crop&q=80"
+        reversed={true}
+      />
 
       {/* Features */}
       <div className="bg-white py-24">
